@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск по заказам</title>
+</head>
+<body>
+  <h3>Поиск по заказам</h3>
+  <form th:method="post" th:action="@{/admin/order/search}" style="width: 500px">
+    <fieldset>
+      <legend>Поиск по последним 4 цифрам</legend>
+      <br>
+      <label for="search">Введите последние 4 цифры заказа: </label>
+      <input name="search" id="search" th:value="*{orderNumberSearch}">
+      <br>
+      <input type="submit" value="Поиск">
+    </fieldset>
+  </form>
+  <hr>
+  <h3>Результаты поиска: </h3>
+  <div th:each="element : ${searchOrder}">
+    <h3 th:text="'Заказ № ' + ${element.getNumber()}"></h3>
+    <p th:text="'Наименование: ' + ${element.getProduct().getTitle()}"></p>
+    <p th:text="'Количество: ' + ${element.getCount()}"></p>
+    <p th:text="'Стоимость заказа: ' + ${element.getPrice()}"></p>
+    <p th:text="'Дата заказа: ' + ${#temporals.format(element.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Статус заказа: ' + ${element.getOrderStatus()}"></p>
+    <a th:href="@{admin/order/edit/{id}(id=${element.getId()})}">Изменить статус заказа</a>
+  </div>
+  <h3>Список всех заказов: </h3>
+  <div th:each="element : ${orders}">
+    <h3 th:text="'Заказ № ' + ${element.getNumber()}"></h3>
+    <p th:text="'Наименование: ' + ${element.getProduct().getTitle()}"></p>
+    <p th:text="'Количество: ' + ${element.getCount()}"></p>
+    <p th:text="'Стоимость заказа: ' + ${element.getPrice()}"></p>
+    <p th:text="'Дата заказа: ' + ${#temporals.format(element.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Статус заказа: ' + ${element.getOrderStatus()}"></p>
+    <a th:href="@{admin/order/edit/{id}(id=${element.getId()})}">Изменить статус заказа</a>
+  </div>
+</body>
+</html>

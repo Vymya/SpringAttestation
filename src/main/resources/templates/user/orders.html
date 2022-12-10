@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказы</title>
+</head>
+<body>
+  <h3>Ваши заказы</h3>
+  <div th:each="element : ${orders}">
+    <h3 th:text="'Заказ № ' + ${element.getNumber()}"></h3>
+    <img th:src="'/img/' + ${element.getProduct().imageList[0].getFileName()}" width="300px">
+    <p th:text="'Наименование: ' + ${element.getProduct().getTitle()}"></p>
+    <p th:text="'Количество: ' + ${element.getCount()}"></p>
+    <p th:text="'Стоимость заказа: ' + ${element.getPrice()}"></p>
+    <p th:text="'Дата заказа: ' + ${#temporals.format(element.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Статус заказа: ' + ${element.getOrderStatus()}"></p>
+  </div>
+</body>
+</html>

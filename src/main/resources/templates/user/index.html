@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h3>Главная страница магазина</h3>
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="Выйти из личного кабинета">
+    </form>
+    <br>
+    <form method="get" th:action="@{/cart}">
+        <input type="submit" value="Корзина">
+    </form>
+    <br>
+    <form method="get" th:action="@{/orders}">
+        <input type="submit" value="История заказов">
+    </form>
+    <br>
+    <a href="product">Список товаров</a>
+    <br><br>
+    <form th:method="post" th:action="@{/product/search}" style="width: 500px">
+        <fieldset>
+            <legend>Поиск по товарам</legend>
+                <br>
+                <label for="search">Введите название товара: </label>
+                <input name="search" id="search">
+                <br>
+                <p>Цена, ₽</p>
+                <label for="from">От</label>
+                <input type="text" name="from" id="from">
+                <label for="from">До</label>
+                <input type="text" name="to" id="to">
+                <br><br>
+                <div>
+                    <label for="ascendingPrice">Отсортировать по возрастанию цены: </label>
+                    <input type="radio" id="ascendingPrice" name="sortPrice" value="sortedByAscendingPrice">
+                    <br>
+                    <label for="descendingPrice">Отсортировать по убыванию цены: </label>
+                    <input type="radio" id="descendingPrice" name="sortPrice" value="sortedByDescendingPrice">
+                </div>
+                <div>
+                    <p>Отфильтровать по категории: </p>
+                    <label for="pillow">Подушки</label>
+                    <input type="radio" id="pillow" name="productCat" value="pillow">
+                    <label for="pillow">Наволочки</label>
+                    <input type="radio" id="pillowCase" name="productCat" value="pillowCase">
+                </div>
+                <br><br>
+                <input type="submit" value="Поиск">
+        </fieldset>
+    </form>
+    <h3>Все товары: </h3>
+    <hr>
+    <div th:each="element : ${products}">
+        <img th:src="'/img/' + ${element.imageList[0].getFileName()}" width="300px">
+        <a th:href="@{/product/info/{id}(id=${element.getId()})}" th:text="${element.getTitle()}"></a>
+        <p th:text="'Цена: ' + ${element.getPrice}"/>
+        <a th:href="@{/cart/add/{id}(id=${element.getId()})}">Добавить в корзину</a>
+        <hr>
+    </div>
+</body>
+</html>
